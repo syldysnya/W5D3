@@ -1,3 +1,4 @@
+PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS questions;
 CREATE TABLE questions (
@@ -18,27 +19,23 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS question_follows;
 CREATE TABLE question_follows (
-    SELECT
-        *
-    FROM
-        questions
-    JOIN 
-        users
-    ON
-        questions.associated_author = users.id 
-        ---?????????^^^^^^^
+    id INTEGER PRIMARY KEY,
+    follower_id INTEGER NOT NULL,
+    following_id INTEGER NOT NULL,
+    
+    FOREIGN KEY (follower_id) REFERENCES users(id),
+    FOREIGN KEY (following_id) REFERENCES users(id)
 );
 
 DROP TABLE IF EXISTS replies;
 CREATE TABLE replies (
-    -- Each reply: questions.id,??????, user.id
-    SELECT
-        body, 
-    FROM
-        questions
-    JOIN 
-        users
-    ON
-        questions.title = questions.body
-        ---?????????^^^^^^^
+    id INTEGER PRIMARY KEY,
+    subject_question TEXT NOT NULL,
+    qustion_parent INTEGER,
+    reply_body TEXT NOT NULL,
+    reply_user INTEGER NOT NULL,
+
+    FOREIGN KEY (subject_question) REFERENCES questions(title),
+    FOREIGN KEY (qustion_parent) REFERENCES replies(id),
+    FOREIGN KEY (reply_user) REFERENCES users(id)
 );
