@@ -45,10 +45,6 @@ ul li a, figcaption a {
   color: inherit;
 }
 
-nav {
-  display: inline-block;
-}
-
 a {
   display: block;
   padding: 20px 20px 20px 20px;
@@ -58,6 +54,12 @@ a {
 of the header element */
 header > img {
   width: 100px;
+  float: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* Selects all elements with the class attribute "ingredients-list" */
