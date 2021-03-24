@@ -16,10 +16,18 @@ aside {
   /* justify-content: flex-start; */
 }
 
-section {
+select {
+  margin: 10px;
+  width: 200px;
+}
+
+textarea {
+  width: 350px;
+}
+
+.directions-section {
   width: 700px;
   display: inline-block;
-  /* justify-content: flex-end; */
 }
 
 h1 {
@@ -78,6 +86,11 @@ input[type="radio"] {
 
 input[type="radio"]:checked {
   background-position: 30px 30px;
+}
+
+input[type="text"], select {
+  display: block;
+  width: 200px;
 }
 
 
