@@ -15,10 +15,9 @@ CREATE TABLE users (
 INSERT INTO
   users (fname, lname)
 VALUES
-  ('Arthur', 'Miller'),
-  ('blah blah', 'Miller'),
-  ('testing', 'Miller'),
-  ('Eugene O','Neill');
+  ('Ned', 'Miller'),
+  ('Kush', 'Mi'),
+  ('Earl', 'Doe');
 
 
 CREATE TABLE questions (
@@ -33,32 +32,44 @@ CREATE TABLE questions (
 INSERT INTO
     questions(title, body, associated_author)
 VALUES
-  ('All My Sons', 'body body body ', (SELECT id FROM users WHERE fname = 'Arthur')),
-  ('How do you use SQL?', 'body jalsdkfljalsdf', (SELECT id FROM users WHERE fname = 'testing'));
+  ('Basics', 'What is diff between integer and string?', (SELECT id FROM users WHERE fname = 'Ned')),
+  ('SQLite3', 'What is ORM?', (SELECT id FROM users WHERE fname = 'Kush')),
+  ('Food', 'What is the best breakfast?', (SELECT id FROM users WHERE fname = 'Earl'));
 
 
 
 CREATE TABLE question_follows (
     id INTEGER PRIMARY KEY,
-    follower_id INTEGER NOT NULL,
-    following_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
     
-    FOREIGN KEY (follower_id) REFERENCES users(id),
-    FOREIGN KEY (following_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
+INSERT INTO
+    question_follows(user_id, question_id)
+VALUES
+    ((SELECT id FROM users WHERE fName = 'Ned'),(SELECT id FROM questions WHERE title = 'SQLite3')),
+    ((SELECT id FROM users WHERE fName = 'Kush'),(SELECT id FROM questions WHERE title = 'Food'));              
 
 CREATE TABLE replies (
     id INTEGER PRIMARY KEY,
-    subject_question TEXT NOT NULL,
-    qustion_parent INTEGER,
-    reply_body TEXT NOT NULL,
-    reply_user INTEGER NOT NULL,
+    question_id INTEGER NOT NULL,
+    author_id INTEGER,
+    body TEXT NOT NULL,
+    parent_id INTEGER,
 
-    FOREIGN KEY (subject_question) REFERENCES questions(title),
-    FOREIGN KEY (qustion_parent) REFERENCES replies(id),
-    FOREIGN KEY (reply_user) REFERENCES users(id)
+    FOREIGN KEY (question_id) REFERENCES questions(id),
+    FOREIGN KEY (author_id) REFERENCES users(id),
+    FOREIGN KEY (parent_id) REFERENCES replies(id)
 );
+
+INSERT INTO
+    replies(question_id, author_id, body, parent_id)
+VALUES
+    ((SELECT id FROM questions WHERE title = 'SQLite3'), (SELECT id FROM users WHERE fname = 'Ned'), 'Great question, Kush', NULL),
+    ((SELECT id FROM questions WHERE title = 'SQLite3'), (SELECT id FROM users WHERE fname = 'Earl'), 'Good response, Ned', (SELECT id FROM replies WHERE body = 'Great question, Kush'));
 
 
 
@@ -71,10 +82,10 @@ CREATE TABLE question_likes(
     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-
-
 INSERT INTO
-    question_follows(follower_id, following_id)
+    question_likes(user_id, question_id)
 VALUES
-    ((SELECT id FROM users WHERE fName = 'Arthur'),(SELECT id FROM users WHERE fName = 'testing')),
-    ((SELECT id FROM users WHERE fName = 'testing'),(SELECT id FROM users WHERE fName = 'blah blah'));              
+    ((SELECT id FROM users WHERE fname = 'Ned'), (SELECT id FROM questions WHERE title = 'SQLite3'));
+
+
+
