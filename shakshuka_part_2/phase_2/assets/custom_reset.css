@@ -1,0 +1,9 @@
+html, head, title, body, header, nav, ul, li, 
+aside, h2, section, h1, figure, figcaption, p, 
+ol, form, label, input, option, textarea, footer {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+}
+
