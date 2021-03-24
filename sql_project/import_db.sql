@@ -69,7 +69,7 @@ INSERT INTO
     replies(question_id, author_id, body, parent_id)
 VALUES
     ((SELECT id FROM questions WHERE title = 'SQLite3'), (SELECT id FROM users WHERE fname = 'Ned'), 'Great question, Kush', NULL),
-    ((SELECT id FROM questions WHERE title = 'SQLite3'), (SELECT id FROM users WHERE fname = 'Earl'), 'Good response, Ned', (SELECT id FROM replies WHERE body = 'Great question, Kush'));
+    ((SELECT id FROM questions WHERE title = 'SQLite3'), (SELECT id FROM users WHERE fname = 'Earl'), 'Good response, Ned', (SELECT id FROM replies WHERE id = 1));
 
 
 
